@@ -85,6 +85,9 @@
   mainPin.addEventListener('keydown', onEnterKeydown);
 
   window.main = {
-    deactivatePage: deactivatePage
+    deactivatePage: deactivatePage,
+    offers: function () {
+      return offers;
+    }
   };
 })();
