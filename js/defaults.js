@@ -3,7 +3,7 @@
 (function () {
   var map = window.map.element;
 
-  var constants = {
+  var defaults = {
     MAX_COUNT: 5,
 
     PIN_WIDTH: 50,
@@ -49,5 +49,5 @@
     },
   };
 
-  window.constants = constants;
+  window.defaults = defaults;
 })();

@@ -58,7 +58,7 @@
   var onFilterFormChange = window.debounce(function () {
     window.card.removePopup();
     window.pin.remove();
-    window.pin.renderAdverts(filterData(window.main.offers()).slice(0, window.constants.MAX_COUNT));
+    window.pin.renderAdverts(filterData(window.main.offers()).slice(0, window.defaults.MAX_COUNT));
   });
 
   filterForm.addEventListener('change', onFilterFormChange);

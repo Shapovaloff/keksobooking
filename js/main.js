@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var BUTTON_EVT = window.constants.BUTTON_EVT;
-  var MAX_COUNT = window.constants.MAX_COUNT;
+  var BUTTON_EVT = window.defaults.BUTTON_EVT;
+  var MAX_COUNT = window.defaults.MAX_COUNT;
   var map = window.map.element;
   var mainPin = window.pin.mainElement;
   var changeAddress = window.form.changeAddress;
@@ -58,8 +58,10 @@
     adForm.classList.add('ad-form--disabled');
 
     setFieldsetState();
+    onTypeSelectChange();
     window.pin.setStartPosition();
     changeAddress();
+    window.preview.resetPhoto();
     window.card.removePopup();
     window.map.deactivateMap();
     window.pin.remove();

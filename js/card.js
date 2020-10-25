@@ -3,7 +3,7 @@
 (function () {
   var map = window.map.element;
   var isEscEvent = window.util.isEscEvent;
-  var types = window.constants.types;
+  var types = window.defaults.types;
 
   var mapFilters = map.querySelector('.map__filters-container');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
@@ -55,14 +55,53 @@
 
     var cardAvatar = cardElement.querySelector('.popup__avatar');
 
-    cardTitle.textContent = card.offer.title;
-    cardAddress.textContent = card.offer.address;
-    cardPrice.textContent = card.offer.price + ' ₽/ночь';
-    cardType.textContent = types[card.offer.type].ru;
-    cardCapacity.textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
-    cardTime.textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
-    cardDescription.textContent = card.offer.description;
-    cardAvatar.src = card.author.avatar;
+    if (card.offer.title) {
+      cardTitle.textContent = card.offer.title;
+    } else {
+      cardTitle.remove();
+    }
+
+    if (card.offer.address) {
+      cardAddress.textContent = card.offer.address;
+    } else {
+      cardAddress.remove();
+    }
+
+    if (card.offer.price) {
+      cardPrice.textContent = card.offer.price + ' ₽/ночь';
+    } else {
+      cardPrice.remove();
+    }
+
+    if (card.offer.type) {
+      cardType.textContent = types[card.offer.type].ru;
+    } else {
+      cardType.remove();
+    }
+
+    if (card.offer.rooms && card.offer.guests) {
+      cardCapacity.textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+    } else {
+      cardCapacity.remove();
+    }
+
+    if (card.offer.checkin && card.offer.checkout) {
+      cardTime.textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+    } else {
+      cardTime.remove();
+    }
+
+    if (card.offer.description) {
+      cardDescription.textContent = card.offer.description;
+    } else {
+      cardDescription.remove();
+    }
+
+    if (card.author.avatar) {
+      cardAvatar.src = card.author.avatar;
+    } else {
+      cardAvatar.remove();
+    }
 
     var popupClose = cardElement.querySelector('.popup__close');
 

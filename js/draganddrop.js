@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  var MAIN_PIN_WIDTH = window.constants.MAIN_PIN_WIDTH;
-  var MAIN_PIN_HEIGHT_ACTIVE = window.constants.MAIN_PIN_HEIGHT_ACTIVE;
-  var BUTTON_EVT = window.constants.BUTTON_EVT;
-  var workArea = window.constants.workArea;
+  var MAIN_PIN_WIDTH = window.defaults.MAIN_PIN_WIDTH;
+  var MAIN_PIN_HEIGHT_ACTIVE = window.defaults.MAIN_PIN_HEIGHT_ACTIVE;
+  var BUTTON_EVT = window.defaults.BUTTON_EVT;
+  var workArea = window.defaults.workArea;
   var mainPin = window.pin.mainElement;
   var changeAddress = window.form.changeAddress;
 
