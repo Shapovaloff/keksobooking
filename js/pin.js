@@ -50,6 +50,16 @@
     pins.appendChild(fragment);
   };
 
+  var removePins = function () {
+    var currentPins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    if (currentPins.length > 0) {
+      currentPins.forEach(function (item) {
+        item.remove();
+      });
+    }
+  };
+
   var setMainPinStartingPosition = function () {
     mapPinMain.style.left = MAIN_PIN_START_LEFT + 'px';
     mapPinMain.style.top = MAIN_PIN_START_TOP + 'px';
@@ -58,6 +68,7 @@
   window.pin = {
     mainElement: mapPinMain,
     renderAdverts: renderAdverts,
-    setStartPosition: setMainPinStartingPosition
+    setStartPosition: setMainPinStartingPosition,
+    remove: removePins
   };
 })();

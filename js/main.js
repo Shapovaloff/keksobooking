@@ -11,7 +11,7 @@
   var onTimeInSelectChange = window.form.onTimeInSelectChange;
   var onTimeOutSelectChange = window.form.onTimeOutSelectChange;
   var setFieldsetState = window.form.setFieldsetState;
-  var addForm = window.form.ad;
+  var adForm = window.form.ad;
   var isEnterEvent = window.util.isEnterEvent;
 
   var offers = [];
@@ -38,7 +38,7 @@
 
     setFieldsetState();
 
-    addForm.classList.remove('ad-form--disabled');
+    adForm.classList.remove('ad-form--disabled');
 
     mainPin.removeEventListener('mousedown', onMainPinMouseDown);
     mainPin.removeEventListener('keydown', onEnterKeydown);
@@ -50,6 +50,21 @@
 
   var activatePage = function () {
     window.backend.load(onSuccess, onError);
+  };
+
+  var deactivatePage = function () {
+    adForm.reset();
+    window.card.mapFilters.querySelector('form').reset();
+    adForm.classList.add('ad-form--disabled');
+
+    setFieldsetState();
+    window.pin.setStartPosition();
+    changeAddress();
+    window.card.removePopup();
+    window.map.deactivateMap();
+    window.pin.remove();
+    mainPin.addEventListener('mousedown', onMainPinMouseDown);
+    mainPin.addEventListener('keydown', onEnterKeydown);
   };
 
   var onMainPinMouseDown = function (evt) {
@@ -68,4 +83,8 @@
 
   mainPin.addEventListener('mousedown', onMainPinMouseDown);
   mainPin.addEventListener('keydown', onEnterKeydown);
+
+  window.main = {
+    deactivatePage: deactivatePage
+  };
 })();

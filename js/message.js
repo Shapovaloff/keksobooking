@@ -29,7 +29,6 @@
     document.removeEventListener('mousedown', errorMessageClose);
   };
 
-
   var onSuccessSend = function () {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
