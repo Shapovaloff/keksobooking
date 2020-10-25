@@ -16,6 +16,8 @@
   var formSelectTimeOut = adForm.querySelector('#timeout');
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
   var isActive = window.map.isActive;
+  var deactivateMap = window.map.deactivateMap;
+  var addFormReset = adForm.querySelector('.ad-form__reset');
 
   var roomsCapacity = {
     '1': ['1'],
@@ -75,6 +77,34 @@
   formSelectTimeIn.addEventListener('change', onTimeInSelectChange);
   formSelectTimeOut.addEventListener('change', onTimeOutSelectChange);
 
+  var sendForm = function (evt) {
+    evt.preventDefault();
+    window.backend.save(onSuccess, onError, new FormData(adForm));
+  };
+
+  adForm.addEventListener('submit', sendForm);
+
+  var onError = function () {
+    window.message.onErrorSend('Ошибка загрузки объявления');
+  };
+
+  var onSuccess = function () {
+    window.message.onSuccessSend();
+    deactivatePage();
+  };
+
+  addFormReset.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    deactivatePage();
+  });
+
+  var deactivatePage = function () {
+    adForm.reset();
+    window.pin.setStartPosition();
+    changeAddress();
+    window.card.removePopup();
+    deactivateMap();
+  };
 
   window.form = {
     ad: adForm,

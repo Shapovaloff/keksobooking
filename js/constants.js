@@ -4,7 +4,7 @@
   var map = window.map.element;
 
   var constants = {
-    COUNT: 8,
+    MAX_COUNT: 5,
 
     PIN_WIDTH: 50,
     PIN_HEIGHT: 70,
@@ -46,7 +46,7 @@
         min: 130,
         max: 630
       }
-    }
+    },
   };
 
   window.constants = constants;

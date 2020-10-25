@@ -2,20 +2,19 @@
 
 (function () {
   var BUTTON_EVT = window.constants.BUTTON_EVT;
+  var MAX_COUNT = window.constants.MAX_COUNT;
   var map = window.map.element;
   var mainPin = window.pin.mainElement;
-  var addAdverts = window.data.addAdverts;
   var changeAddress = window.form.changeAddress;
   var onRoomSelectChange = window.form.onRoomSelectChange;
   var onTypeSelectChange = window.form.onTypeSelectChange;
   var onTimeInSelectChange = window.form.onTimeInSelectChange;
   var onTimeOutSelectChange = window.form.onTimeOutSelectChange;
   var setFieldsetState = window.form.setFieldsetState;
-  var renderAdverts = window.pin.renderAdverts;
   var addForm = window.form.ad;
   var isEnterEvent = window.util.isEnterEvent;
 
-  addAdverts();
+  var offers = [];
 
   var setFormPreferences = function () {
     changeAddress();
@@ -28,16 +27,29 @@
 
   setFormPreferences();
 
-  var activatePage = function () {
+  var onSuccess = function (data) {
+    offers = data.slice().filter(function (item) {
+      return Object.keys(item.offer).length !== 0;
+    });
+
+    window.pin.renderAdverts(offers.slice(0, MAX_COUNT));
+
     map.classList.remove('map--faded');
 
-    renderAdverts();
     setFieldsetState();
 
     addForm.classList.remove('ad-form--disabled');
 
     mainPin.removeEventListener('mousedown', onMainPinMouseDown);
     mainPin.removeEventListener('keydown', onEnterKeydown);
+  };
+
+  var onError = function (message) {
+    window.message.onErrorSend(message);
+  };
+
+  var activatePage = function () {
+    window.backend.load(onSuccess, onError);
   };
 
   var onMainPinMouseDown = function (evt) {

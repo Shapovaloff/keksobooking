@@ -7,8 +7,13 @@
     return !map.classList.contains('map--faded');
   };
 
+  var deactivateMap = function () {
+    map.classList.add('map--faded');
+  };
+
   window.map = {
     element: map,
-    isActive: isActiveMap
+    isActive: isActiveMap,
+    deactivateMap: deactivateMap
   };
 })();
