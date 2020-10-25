@@ -1,9 +1,18 @@
 'use strict';
 
 (function () {
-  var mapPinMain = window.map.querySelector('.map__pin--main');
+  var PIN_WIDTH = window.constants.PIN_WIDTH;
+  var PIN_HEIGHT = window.constants.PIN_HEIGHT;
+  var map = window.map.element;
+  var removeActivePin = window.card.removeActivePin;
+  var removePopup = window.card.removePopup;
+  var createCard = window.card.create;
+  var mapFilters = window.card.mapFilters;
+  var adverts = window.data.adverts;
 
-  var pins = window.map.querySelector('.map__pins');
+  var mapPinMain = map.querySelector('.map__pin--main');
+
+  var pins = map.querySelector('.map__pins');
 
   var pinsTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
@@ -14,16 +23,16 @@
     pinImage.src = pin.author.avatar;
     pinImage.alt = pin.offer.title;
 
-    pinElement.style.left = pin.location.x - window.constants.PIN_WIDTH / 2 + 'px';
-    pinElement.style.top = pin.location.y - window.constants.PIN_HEIGHT + 'px';
+    pinElement.style.left = pin.location.x - PIN_WIDTH / 2 + 'px';
+    pinElement.style.top = pin.location.y - PIN_HEIGHT + 'px';
 
     pinElement.addEventListener('click', function () {
 
-      window.card.removeActivePin();
+      removeActivePin();
       pinElement.classList.add('map__pin--active');
-      window.card.removePopup();
+      removePopup();
 
-      window.map.insertBefore(window.card.createCard(pin), window.card.mapFilters);
+      map.insertBefore(createCard(pin), mapFilters);
     });
 
     return pinElement;
@@ -32,17 +41,15 @@
 
   var renderAdverts = function () {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.adverts.length; i++) {
-      fragment.appendChild(createAdvert(window.data.adverts[i]));
+    for (var i = 0; i < adverts.length; i++) {
+      fragment.appendChild(createAdvert(adverts[i]));
     }
 
     pins.appendChild(fragment);
   };
 
-  var pin = {
-    mapPinMain: mapPinMain,
+  window.pin = {
+    mainElement: mapPinMain,
     renderAdverts: renderAdverts
   };
-
-  window.pin = pin;
 })();

@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var map = window.map.element;
+
   var constants = {
     COUNT: 8,
 
@@ -35,13 +37,15 @@
       }
     },
 
-    COORD_X: {
-      min: 0,
-      max: window.map.offsetWidth
-    },
-    COORD_Y: {
-      min: 130,
-      max: 630
+    workArea: {
+      COORD_X: {
+        min: 0,
+        max: map.offsetWidth
+      },
+      COORD_Y: {
+        min: 130,
+        max: 630
+      }
     }
   };
 

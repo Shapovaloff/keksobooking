@@ -1,42 +1,59 @@
 'use strict';
 
 (function () {
+  var BUTTON_EVT = window.constants.BUTTON_EVT;
+  var map = window.map.element;
+  var mainPin = window.pin.mainElement;
+  var addAdverts = window.data.addAdverts;
+  var changeAddress = window.form.changeAddress;
+  var onRoomSelectChange = window.form.onRoomSelectChange;
+  var onTypeSelectChange = window.form.onTypeSelectChange;
+  var onTimeInSelectChange = window.form.onTimeInSelectChange;
+  var onTimeOutSelectChange = window.form.onTimeOutSelectChange;
+  var setFieldsetState = window.form.setFieldsetState;
+  var renderAdverts = window.pin.renderAdverts;
+  var addForm = window.form.ad;
+  var isEnterEvent = window.util.isEnterEvent;
 
-  window.data.addAdverts();
+  addAdverts();
 
   var setFormPreferences = function () {
-    window.form.changeAddress(window.constants.MAIN_PIN_WIDTH / 2, window.constants.MAIN_PIN_HEIGHT / 2);
-    window.form.onRoomSelectChange();
-    window.form.onTypeSelectChange();
-    window.form.onTimeInSelectChange();
-    window.form.onTimeOutSelectChange();
-    window.form.setFieldsetState();
+    changeAddress();
+    onRoomSelectChange();
+    onTypeSelectChange();
+    onTimeInSelectChange();
+    onTimeOutSelectChange();
+    setFieldsetState();
   };
 
   setFormPreferences();
 
   var activatePage = function () {
-    window.map.classList.remove('map--faded');
+    map.classList.remove('map--faded');
 
-    window.pin.renderAdverts();
-    window.form.setFieldsetState();
+    renderAdverts();
+    setFieldsetState();
 
-    window.form.adForm.classList.remove('ad-form--disabled');
+    addForm.classList.remove('ad-form--disabled');
+
+    mainPin.removeEventListener('mousedown', onMainPinMouseDown);
+    mainPin.removeEventListener('keydown', onEnterKeydown);
   };
 
-  window.pin.mapPinMain.addEventListener('mousedown', function (evt) {
-    if (evt.button === window.constants.BUTTON_EVT) {
+  var onMainPinMouseDown = function (evt) {
+    if (evt.button === BUTTON_EVT) {
       activatePage();
-      window.form.changeAddress(window.constants.MAIN_PIN_WIDTH / 2, window.constants.MAIN_PIN_HEIGHT_ACTIVE);
+      changeAddress();
     }
-  });
+  };
 
-  window.pin.mapPinMain.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.constants.ENTER_KEYCODE) {
+  var onEnterKeydown = function (evt) {
+    isEnterEvent(evt, function () {
       activatePage();
-      window.form.changeAddress(window.constants.MAIN_PIN_WIDTH / 2, window.constants.MAIN_PIN_HEIGHT_ACTIVE);
-    }
-  });
+      changeAddress();
+    });
+  };
+
+  mainPin.addEventListener('mousedown', onMainPinMouseDown);
+  mainPin.addEventListener('keydown', onEnterKeydown);
 })();
-
-

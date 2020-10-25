@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var COUNT = window.constants.COUNT;
+  var map = window.map.element;
   var adverts = [];
 
   var getRandomInt = function (min, max) {
@@ -23,8 +25,8 @@
   };
 
   var addAdverts = function () {
-    for (var i = 0; i < window.constants.COUNT; i++) {
-      data.adverts.push(
+    for (var i = 0; i < COUNT; i++) {
+      adverts.push(
           {
             'author': {
               'avatar': 'img/avatars/user0' + (i + 1) + '.png'
@@ -43,7 +45,7 @@
               'photos': shaffleArray(photos).slice(0, getRandomInt(0, photos.length))
             },
             'location': {
-              'x': getRandomInt(1, window.map.offsetWidth),
+              'x': getRandomInt(1, map.offsetWidth),
               'y': getRandomInt(130, 630)
             }
           }
@@ -51,10 +53,8 @@
     }
   };
 
-  var data = {
+  window.data = {
     adverts: adverts,
     addAdverts: addAdverts
   };
-
-  window.data = data;
 })();

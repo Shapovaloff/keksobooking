@@ -1,17 +1,23 @@
 'use strict';
 
 (function () {
-  var mapFilters = window.map.querySelector('.map__filters-container');
+  var map = window.map.element;
+  var isEscEvent = window.util.isEscEvent;
+  var types = window.constants.types;
+
+  var mapFilters = map.querySelector('.map__filters-container');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   var onEscKeyDown = function (evt) {
-    var popup = window.map.querySelector('.popup');
+    var popup = map.querySelector('.popup');
 
-    if (evt.keyCode === window.constants.ESC_KEYCODE && popup !== null) {
-      removePopup();
-      document.removeEventListener('keydown', onEscKeyDown);
-      removeActivePin();
-    }
+    isEscEvent(evt, function () {
+      if (popup !== null) {
+        removePopup();
+        document.removeEventListener('keydown', onEscKeyDown);
+        removeActivePin();
+      }
+    });
   };
 
   var createCard = function (card) {
@@ -52,7 +58,7 @@
     cardTitle.textContent = card.offer.title;
     cardAddress.textContent = card.offer.address;
     cardPrice.textContent = card.offer.price + ' ₽/ночь';
-    cardType.textContent = window.constants.types[card.offer.type].ru;
+    cardType.textContent = types[card.offer.type].ru;
     cardCapacity.textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
     cardTime.textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     cardDescription.textContent = card.offer.description;
@@ -70,7 +76,7 @@
   };
 
   var removePopup = function () {
-    var popup = window.map.querySelector('.popup');
+    var popup = map.querySelector('.popup');
 
     if (popup !== null) {
       popup.remove();
@@ -78,20 +84,17 @@
   };
 
   var removeActivePin = function () {
-    var activePin = window.map.querySelector('.map__pin--active');
+    var activePin = map.querySelector('.map__pin--active');
 
     if (activePin !== null) {
       activePin.classList.remove('map__pin--active');
     }
   };
 
-  var card = {
+  window.card = {
     mapFilters: mapFilters,
-    createCard: createCard,
+    create: createCard,
     removePopup: removePopup,
     removeActivePin: removeActivePin
   };
-
-  window.card = card;
-
 })();

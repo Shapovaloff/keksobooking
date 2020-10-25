@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  var MAIN_PIN_WIDTH = window.constants.MAIN_PIN_WIDTH;
+  var MAIN_PIN_HEIGHT = window.constants.MAIN_PIN_HEIGHT;
+  var MAIN_PIN_HEIGHT_ACTIVE = window.constants.MAIN_PIN_HEIGHT_ACTIVE;
+  var types = window.constants.types;
+  var mainPin = window.pin.mainElement;
   var formAddress = document.querySelector('#address');
   var adForm = document.querySelector('.ad-form');
   var formRoomNumber = adForm.querySelector('#room_number');
@@ -10,6 +15,7 @@
   var formSelectTimeIn = adForm.querySelector('#timein');
   var formSelectTimeOut = adForm.querySelector('#timeout');
   var fieldsetsAdForm = adForm.querySelectorAll('fieldset');
+  var isActive = window.map.isActive;
 
   var roomsCapacity = {
     '1': ['1'],
@@ -18,8 +24,11 @@
     '100': ['0']
   };
 
-  var changeAddress = function (width, height) {
-    formAddress.value = Math.round(Number(window.pin.mapPinMain.style.left.replace('px', '')) + Number(width)) + ', ' + Math.round(Number(window.pin.mapPinMain.style.top.replace('px', '')) + Number(height));
+  var changeAddress = function () {
+    var width = MAIN_PIN_WIDTH / 2;
+    var height = isActive() ? MAIN_PIN_HEIGHT_ACTIVE : (MAIN_PIN_HEIGHT / 2);
+
+    formAddress.value = Math.round(parseInt(mainPin.style.left, 10) + width) + ', ' + Math.round(parseInt(mainPin.style.top, 10) + height);
 
     return formAddress.value;
   };
@@ -38,8 +47,8 @@
   };
 
   var onTypeSelectChange = function () {
-    formInputPrice.min = window.constants.types[formSelectType.value].min;
-    formInputPrice.placeholder = window.constants.types[formSelectType.value].min;
+    formInputPrice.min = types[formSelectType.value].min;
+    formInputPrice.placeholder = types[formSelectType.value].min;
   };
 
   var onTimeInSelectChange = function () {
@@ -67,8 +76,8 @@
   formSelectTimeOut.addEventListener('change', onTimeOutSelectChange);
 
 
-  var form = {
-    adForm: adForm,
+  window.form = {
+    ad: adForm,
     changeAddress: changeAddress,
     onRoomSelectChange: onRoomSelectChange,
     onTypeSelectChange: onTypeSelectChange,
@@ -76,6 +85,4 @@
     onTimeOutSelectChange: onTimeOutSelectChange,
     setFieldsetState: setFieldsetState
   };
-
-  window.form = form;
 })();
